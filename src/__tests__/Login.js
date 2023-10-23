@@ -6,6 +6,8 @@ import LoginUI from "../views/LoginUI";
 import Login from "../containers/Login.js";
 import { ROUTES } from "../constants/routes";
 import { fireEvent, screen } from "@testing-library/dom";
+import DashboardUI from "../views/DashboardUI";
+import { bills } from "../fixtures/bills";
 
 describe("Given that I am a user on login page", () => {
   describe("When I do not fill fields and I click on employee button Login In", () => {
@@ -167,7 +169,6 @@ describe("Given that I am a user on login page", () => {
         password: "azerty",
         status: "connected",
       };
-
       const inputEmailUser = screen.getByTestId("admin-email-input");
       fireEvent.change(inputEmailUser, { target: { value: inputData.email } });
       expect(inputEmailUser.value).toBe(inputData.email);
@@ -224,6 +225,17 @@ describe("Given that I am a user on login page", () => {
     });
 
     test("It should renders HR dashboard page", () => {
+      // créer un faux objet bills
+      const data = { bills };
+      document.body.innerHTML = DashboardUI({
+        data,
+        loading: false,
+        error: false,
+      });
+
+      expect(screen.getByText("En attente (1)")).toBeTruthy();
+      expect(screen.getByText("Refusé (2)")).toBeTruthy();
+      expect(screen.getByText("Validé (1)")).toBeTruthy();
       expect(screen.queryByText("Validations")).toBeTruthy();
     });
   });

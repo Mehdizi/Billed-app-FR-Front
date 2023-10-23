@@ -72,7 +72,7 @@ export default ({ data: bills, loading, error }) => {
               </tr>
           </thead>
           <tbody data-testid="tbody">
-            ${rows(sortBills(bills))}
+          ${rows(sortBills(bills))}
           </tbody>
           </table>
         </div>
