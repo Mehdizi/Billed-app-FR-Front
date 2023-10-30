@@ -26,11 +26,6 @@ export default class NewBill {
     );
   };
 
-  // Probleme fileError et la classe file-error n'existent que dans la scope d'invalidite
-  // Extraire le nom de la classe d'erreur, pour pouvoir la reutiliser
-  // Si file error existe et que le file est toujours invalide, rien faire, mais effacer la nouvelle entree
-  // Si le file error existe et que le file est valide, effacer le file error, et garder la valeur
-
   createFileError = () => {
     const fileContainer = document.getElementById("file-container");
     const fileError = document.createElement("span");
@@ -85,32 +80,6 @@ export default class NewBill {
         },
       })
       .then(({ key, fileUrl, fileName }) => {
-        //         {key: 'kZ9A4wJnyFRvRxxfwWLj2U', id: 27, email: 'employee@test.tld', fileName: 'JSBench_test.png', filePath: 'public\\c4b32475612301939321ba37125204ee', …}
-        // createdAt
-        // :
-        // "2023-10-22T20:08:37.096Z"
-        // email
-        // :
-        // "employee@test.tld"
-        // fileName
-        // :
-        // "JSBench_test.png"
-        // filePath
-        // :
-        // "public\\c4b32475612301939321ba37125204ee"
-        // id
-        // :
-        // 27
-        // key
-        // :
-        // "kZ9A4wJnyFRvRxxfwWLj2U"
-        // updatedAt
-        // :
-        // "2023-10-22T20:08:37.096Z"
-        // [[Prototype]]
-        // :
-        // Object
-
         console.log(fileUrl);
         this.billId = key;
         this.fileUrl = fileUrl;
