@@ -13,6 +13,7 @@ import { ROUTES, ROUTES_PATH } from "../constants/routes";
 import { localStorageMock } from "../__mocks__/localStorage.js";
 import { sortBills } from "../app/sortBills.js";
 import router from "../app/Router.js";
+import Store from "../app/Store.js";
 
 describe("Given I am connected as an employee", () => {
   describe("When I am on Bills Page", () => {
@@ -108,7 +109,7 @@ describe("Given I am connected as an employee", () => {
       ]);
     });
     describe("When I click on the new bill button", () => {
-      test(" then it should open the newBill page", () => {
+      test("Then it should open the newBill page", () => {
         Object.defineProperty(window, "localStorage", {
           value: localStorageMock,
         });
@@ -173,40 +174,46 @@ describe("Given I am connected as an employee", () => {
       });
     });
     describe("When I click on the eye icon of a bill", () => {
-      // test("Then it should open the justificatif modal", () => {
-      //   Object.defineProperty(window, "localStorage", {
-      //     value: localStorageMock,
-      //   });
-      //   window.localStorage.setItem(
-      //     "user",
-      //     JSON.stringify({
-      //       type: "Employee",
-      //     })
-      //   );
-      //   const loading = false;
-      //   const error = false;
-      //   document.body.innerHTML = BillsUI({ data: bills, loading, error });
-      //   expect(screen.getAllByTestId("icon-eye")).toBeTruthy();
-      //   const onNavigate = (pathname) => {
-      //     document.body.innerHTML = ROUTES({ pathname });
-      //   };
-      //   const store = null;
-      //   const eyeIcons = screen.getAllByTestId("icon-eye");
-      //   const employeeDashboard = new Bills({
-      //     document,
-      //     onNavigate,
-      //     store,
-      //     localStorage: window.localStorage,
-      //   });
-      //   const handleClickIconEye = jest.fn((e) => {
-      //     employeeDashboard.handleClickIconEye({ icon: eyeIcons });
-      //   });
-      //   eyeIcons.forEach((icon) => {
-      //     icon.addEventListener("click", () => handleClickIconEye(icon));
-      //   });
-      //   fireEvent.click(eyeIcons[0]);
-      //   expect(handleClickIconEye).toHaveBeenCalled();
-      // });
+      test("Then it should open the justificatif modal", () => {
+        Object.defineProperty(window, "localStorage", {
+          value: localStorageMock,
+        });
+
+        window.localStorage.setItem(
+          "user",
+          JSON.stringify({
+            type: "Employee",
+          })
+        );
+
+        const loading = false;
+        const error = false;
+
+        document.body.innerHTML = BillsUI({
+          data: bills,
+          loading,
+          error,
+        });
+        const modaleFile = document.querySelector("#modaleFile");
+        expect(modaleFile).toBeTruthy();
+        const eyeIcons = screen.getAllByTestId("icon-eye");
+        expect(eyeIcons).toBeTruthy();
+
+        const onNavigate = (pathname) => {
+          document.body.innerHTML = ROUTES({ pathname });
+        };
+
+        const employeeDashboard = new Bills({
+          document,
+          onNavigate,
+          Store,
+          localStorage: window.localStorage,
+        });
+
+        employeeDashboard.handleClickIconEye(eyeIcons[0]);
+        const proof = document.querySelector(".bill-proof-container");
+        expect(proof).toBeTruthy();
+      });
     });
   });
 });

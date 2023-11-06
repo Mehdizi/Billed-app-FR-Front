@@ -29,6 +29,7 @@ export default class NewBill {
   createFileError = () => {
     const fileContainer = document.getElementById("file-container");
     const fileError = document.createElement("span");
+    fileError.id = "fileError";
     fileError.classList.add("file-error");
     fileError.innerText =
       "Veuillez renseigner un fichier contenant l'extension .jpg, .jpeg ou .png";
@@ -66,10 +67,54 @@ export default class NewBill {
     }
     this.resetError();
 
+    this.file = file;
+    this.fileUrl = filePath;
+    this.fileName = fileName;
+  };
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+
     const formData = new FormData();
-    const email = JSON.parse(localStorage.getItem("user")).email;
-    formData.append("file", file);
-    formData.append("email", email);
+    formData.append("email", JSON.parse(localStorage.getItem("user")).email);
+    formData.append("fileUrl", this.fileUrl);
+    formData.append("file", this.file);
+    formData.append("fileName", this.fileName);
+    formData.append(
+      "type",
+      e.target.querySelector(`select[data-testid="expense-type"]`).value
+    );
+    formData.append(
+      "name",
+      e.target.querySelector(`input[data-testid="expense-name"]`).value
+    );
+    formData.append(
+      "amount",
+      parseInt(e.target.querySelector(`input[data-testid="amount"]`).value)
+    );
+    formData.append(
+      "date",
+      e.target.querySelector(`input[data-testid="datepicker"]`).value
+    );
+    console.log(
+      "date :",
+      e.target.querySelector(`input[data-testid="datepicker"]`).value
+    );
+    formData.append(
+      "vat",
+      e.target.querySelector(`input[data-testid="vat"]`).value
+    );
+    formData.append(
+      "pct",
+      parseInt(e.target.querySelector(`input[data-testid="pct"]`).value) || 20
+    );
+    formData.append(
+      "commentary",
+      e.target.querySelector(`textarea[data-testid="commentary"]`).value
+    );
+    formData.append("status", "pending");
+
+    console.log(formData);
 
     this.store
       .bills()
@@ -79,42 +124,10 @@ export default class NewBill {
           noContentType: true,
         },
       })
-      .then(({ key, fileUrl, fileName }) => {
-        console.log(fileUrl);
-        this.billId = key;
-        this.fileUrl = fileUrl;
-        this.fileName = fileName;
-      })
-      .catch((error) => console.error(error));
-  };
-
-  handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(
-      'e.target.querySelector(`input[data-testid="datepicker"]`).value',
-      e.target.querySelector(`input[data-testid="datepicker"]`).value
-    );
-    const email = JSON.parse(localStorage.getItem("user")).email;
-    const bill = {
-      email,
-      type: e.target.querySelector(`select[data-testid="expense-type"]`).value,
-      name: e.target.querySelector(`input[data-testid="expense-name"]`).value,
-      amount: parseInt(
-        e.target.querySelector(`input[data-testid="amount"]`).value
-      ),
-      date: e.target.querySelector(`input[data-testid="datepicker"]`).value,
-      vat: e.target.querySelector(`input[data-testid="vat"]`).value,
-      pct:
-        parseInt(e.target.querySelector(`input[data-testid="pct"]`).value) ||
-        20,
-      commentary: e.target.querySelector(`textarea[data-testid="commentary"]`)
-        .value,
-      fileUrl: this.fileUrl,
-      fileName: this.fileName,
-      status: "pending",
-    };
-    this.updateBill(bill);
-    this.onNavigate(ROUTES_PATH["Bills"]);
+      .catch((error) => console.error(error))
+      .then(() => {
+        this.onNavigate(ROUTES_PATH["Bills"]);
+      });
   };
 
   // not need to cover this function by tests
