@@ -12,8 +12,10 @@ import Logout from "../containers/Logout.js";
 import { ROUTES, ROUTES_PATH } from "../constants/routes";
 import { localStorageMock } from "../__mocks__/localStorage.js";
 import { sortBills } from "../app/sortBills.js";
+import mockStore from "../__mocks__/store";
 import router from "../app/Router.js";
-import Store from "../app/Store.js";
+
+jest.mock("../app/store", () => mockStore);
 
 describe("Given I am connected as an employee", () => {
   describe("When I am on Bills Page", () => {
@@ -203,10 +205,12 @@ describe("Given I am connected as an employee", () => {
           document.body.innerHTML = ROUTES({ pathname });
         };
 
+        const store = null;
+
         const employeeDashboard = new Bills({
           document,
           onNavigate,
-          Store,
+          store,
           localStorage: window.localStorage,
         });
 
@@ -218,6 +222,4 @@ describe("Given I am connected as an employee", () => {
   });
 });
 
-// tester si le mail est bien en surbrillance une fois la page ouverte = OK
-// cliquer sur new bill ouvre bien la page de newbill = OK
-// cliquer sur l'oeil ouvre bien le modal pour visualiser le justificatif
+// tester getBills
