@@ -101,8 +101,6 @@ export default class {
     if (this.counter === undefined || this.id !== bill.id) this.counter = 0;
     if (this.id === undefined || this.id !== bill.id) this.id = bill.id;
     if (this.counter % 2 === 0) {
-      console.log("counter before", this.counter);
-
       bills.forEach((b) => {
         $(`#open-bill${b.id}`).css({ background: "#0D5AE5" });
       });
@@ -110,9 +108,7 @@ export default class {
       $(".dashboard-right-container div").html(DashboardFormUI(bill));
       $(".vertical-navbar").css({ height: "150vh" });
       this.counter++;
-      console.log("counter after", this.counter);
     } else {
-      console.log("counter else before :", this.counter);
       $(`#open-bill${bill.id}`).css({ background: "#0D5AE5" });
 
       $(".dashboard-right-container div").html(`
@@ -120,7 +116,6 @@ export default class {
       `);
       $(".vertical-navbar").css({ height: "120vh" });
       this.counter++;
-      console.log("counter else after :", this.counter);
     }
     $("#icon-eye-d").click(this.handleClickIconEye);
     $("#btn-accept-bill").click((e) => this.handleAcceptSubmit(e, bill));
@@ -167,7 +162,6 @@ export default class {
   }
 
   attachEditTicket(bills) {
-    console.log(bills);
     bills.forEach((bill) => {
       $(`#open-bill${bill.id}`).click((e) =>
         this.handleEditTicket(e, bill, bills)
