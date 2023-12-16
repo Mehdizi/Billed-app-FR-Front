@@ -225,7 +225,6 @@ describe("Given that I am a user on login page", () => {
     });
 
     test("It should renders HR dashboard page", () => {
-      // créer un faux objet bills
       const data = { bills };
       document.body.innerHTML = DashboardUI({
         data,

@@ -10,7 +10,6 @@ import BillsUI from "../views/BillsUI.js";
 import { ROUTES, ROUTES_PATH } from "../constants/routes.js";
 import { localStorageMock } from "../__mocks__/localStorage.js";
 import mockStore from "../__mocks__/store";
-import { bills } from "../fixtures/bills.js";
 import router from "../app/Router.js";
 import userEvent from "@testing-library/user-event";
 
@@ -84,7 +83,6 @@ describe("Given I am connected as an employee", () => {
         })
       );
 
-      // récupérer les données du formulaire en y attribuant une value pour chaque input
       const billToCreate = {
         type: "Hôtel et logement",
         name: "encore",

@@ -2,13 +2,10 @@
  * @jest-environment jsdom
  */
 
-import { screen, waitFor, FireFunction, fireEvent } from "@testing-library/dom";
+import { screen, fireEvent } from "@testing-library/dom";
 import BillsUI from "../views/BillsUI.js";
-import NewBillUI from "../views/NewBillUI.js";
 import { bills } from "../fixtures/bills.js";
 import Bills from "../containers/Bills.js";
-import NewBill from "../containers/NewBill.js";
-import Logout from "../containers/Logout.js";
 import { ROUTES, ROUTES_PATH } from "../constants/routes";
 import { localStorageMock } from "../__mocks__/localStorage.js";
 import { sortBills } from "../app/sortBills.js";
@@ -126,7 +123,6 @@ describe("Given I am connected as an employee", () => {
         document.body.innerHTML = BillsUI(bills);
 
         const btnNewBill = screen.queryByTestId("btn-new-bill");
-        // Recuperation de la page BillsUI et première vérification que le bouton pour ajouter une bill est présent
         expect(btnNewBill).toBeTruthy();
 
         const onNavigate = (pathname) => {
@@ -147,13 +143,11 @@ describe("Given I am connected as an employee", () => {
         );
         btnNewBill.addEventListener("click", handleClickNewBill);
         fireEvent.click(btnNewBill);
-        // Ici on s'assure que la fonction de changement de page est correctement lancée
         expect(handleClickNewBill).toHaveBeenCalled();
         const formNewBill = screen.getByTestId("form-new-bill");
-        // On s'assure que le formulaire apparait bien et que la page est bien chargée
         expect(formNewBill).toBeTruthy();
       });
-      test("Then the main icon in the layout should be highlighted", () => {
+      test("Then the mail icon in the layout should be highlighted", () => {
         Object.defineProperty(window, "localStorage", {
           value: localStorageMock,
         });
@@ -268,5 +262,3 @@ describe("Given I am connected as an employee", () => {
     });
   });
 });
-
-// tester getBills

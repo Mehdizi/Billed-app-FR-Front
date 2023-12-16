@@ -143,7 +143,6 @@ export default class {
   };
 
   handleShowTickets(e, bills, index) {
-    // le counter sert juste à savoir si le modal est ouvert ou fermé => remplacer par un booléen
     if (this.counter === undefined || this.index !== index) this.counter = 0;
     if (this.index === undefined || this.index !== index) this.index = index;
     if (this.counter % 2 === 0) {
@@ -157,7 +156,6 @@ export default class {
       $(`#status-bills-container${this.index}`).html("");
       this.counter++;
     }
-
     this.attachEditTicket(filteredBills(bills, getStatus(this.index)));
   }
 
