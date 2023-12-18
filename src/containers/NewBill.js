@@ -100,6 +100,7 @@ export default class NewBill {
         e.target.querySelector(`input[data-testid="amount"]`).value
       ),
       date: e.target.querySelector(`input[data-testid="datepicker"]`).value,
+
       vat: e.target.querySelector(`input[data-testid="vat"]`).value,
       pct:
         parseInt(e.target.querySelector(`input[data-testid="pct"]`).value) ||
@@ -110,6 +111,7 @@ export default class NewBill {
       fileName: this.fileName,
       status: "pending",
     };
+    console.log(bill.date);
     this.updateBill(bill);
     this.onNavigate(ROUTES_PATH["Bills"]);
   };

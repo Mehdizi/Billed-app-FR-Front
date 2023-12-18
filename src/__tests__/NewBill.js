@@ -121,7 +121,7 @@ describe("Given I am connected as an employee", () => {
       });
 
       const file = screen.getByTestId("file");
-      const fileToInput = new File(["test"], "test.jpg", {
+      const fileToInput = new File(["test"], billToCreate.fileName, {
         type: "image/jpg",
       });
       userEvent.upload(file, fileToInput);
@@ -141,7 +141,6 @@ describe("Given I am connected as an employee", () => {
 
       const handleChangeFile = jest.fn((e) => newBillForm.handleChangeFile(e));
       file.addEventListener("change", handleChangeFile);
-      userEvent.upload(file, fileToInput);
 
       const mocked = mockStore.bills();
       const createBills = jest.spyOn(mocked, "create");
